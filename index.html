@@ -50,7 +50,6 @@
   }
   .container{max-width:880px;margin:0 auto}
 
-  /* دکمه تغییر تم */
   .theme-btn{
     position:fixed;top:18px;left:18px;z-index:50;
     display:flex;align-items:center;gap:8px;
@@ -65,7 +64,6 @@
   .theme-btn:hover{background:var(--glass-hover);border-color:var(--glass-border-hover);transform:translateY(-2px)}
   .theme-btn .ico{font-size:1rem}
 
-  /* هدر با تصویر */
   header{text-align:center;margin-bottom:36px}
   .hero-img{
     width:100%;max-width:560px;
@@ -107,7 +105,6 @@
     max-width:640px;margin:0 auto;
   }
 
-  /* کارت‌های روز */
   .days{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
@@ -137,7 +134,6 @@
   .day .name{font-size:1.05rem;font-weight:700;margin-bottom:6px}
   .day .date{font-size:.78rem;color:var(--muted)}
 
-  /* پنل یادداشت */
   .note{
     background:var(--glass);
     border:1px solid var(--glass-border);
@@ -162,7 +158,22 @@
     cursor:pointer;font-size:1rem;transition:.25s;
   }
   .close:hover{background:var(--glass-hover);border-color:var(--glass-border-hover)}
-  .note-body{white-space:pre-wrap;color:var(--text);font-size:.95rem}
+
+  /* جعبه متن قابل ویرایش */
+  .note-text{
+    width:100%;
+    min-height:180px;
+    resize:vertical;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:var(--text);
+    font-family:inherit;
+    font-size:.95rem;
+    line-height:1.9;
+    white-space:pre-wrap;
+  }
+  .note-text::placeholder{color:var(--muted);opacity:.7}
 
   footer{
     text-align:center;color:var(--muted);font-size:.82rem;
@@ -206,7 +217,7 @@
       </div>
       <button class="close" id="closeBtn">✕</button>
     </div>
-    <div class="note-body" id="noteBody"></div>
+    <textarea class="note-text" id="noteText" placeholder="تکالیف این روز را اینجا بنویسید..."></textarea>
   </div>
 
   <footer>
@@ -216,19 +227,13 @@
 </div>
 
 <script>
-/* ============================================================
-   تصاویر شب و روز
-   ============================================================ */
-const IMG_DARK  = "https://cdn.imgurl.ir/uploads/h52665_.png";   // حالت شب
-const IMG_LIGHT = "https://cdn.imgurl.ir/uploads/l317039_.png";  // حالت روز
+const IMG_DARK  = "https://cdn.imgurl.ir/uploads/h52665_.png";
+const IMG_LIGHT = "https://cdn.imgurl.ir/uploads/l317039_.png";
 
-/* ============================================================
-   ویرایش اینجا:
-   برای هر روز، فیلد note را با متن تکالیف همان روز پر کن.
-   برای خط جدید از \n استفاده کن.
-   ============================================================ */
+/* روزها — متن اولیه هر روز در فیلد note هست.
+   اگر می‌خواهی از اول خالی باشه، note را خالی بگذار: "" */
 const schedule = [
-  { day: "شنبه",    date: "۹ آبان", note: "این روز گذشته است\n\n- " },
+  { day: "شنبه",    date: "۹ آبان",  note: "این روز گذشته است\n\n- " },
   { day: "یکشنبه",  date: "۱۰ آبان", note: "امتحان نوآوری از پودمان ۱ گرفته می‌شود\n\n- " },
   { day: "دوشنبه",  date: "۱۱ آبان", note: "امتحان تفکر تا جایی که تدریس شده گرفته می‌شود\n\n- " },
   { day: "سه‌شنبه", date: "۱۲ آبان", note: "زبان تا صفحه ۲۹ امتحان گرفته می‌شود (بهتر است کتاب کار تا جایی که تدریس شده، مطالعه شود ).\n\n- " },
@@ -239,7 +244,7 @@ const daysEl = document.getElementById('days');
 const noteEl = document.getElementById('note');
 const noteTitle = document.getElementById('noteTitle');
 const noteDate = document.getElementById('noteDate');
-const noteBody = document.getElementById('noteBody');
+const noteText = document.getElementById('noteText');
 const closeBtn = document.getElementById('closeBtn');
 
 let activeIdx = -1;
@@ -255,7 +260,11 @@ schedule.forEach((s, i) => {
 function openNote(s, i) {
   noteTitle.textContent = s.day;
   noteDate.textContent = s.date;
-  noteBody.textContent = s.note;
+
+  // اگر کاربر قبلاً چیزی نوشته بود، همون رو نشون بده؛ وگرنه متن پیش‌فرض
+  const savedText = localStorage.getItem('note_' + s.day);
+  noteText.value = (savedText !== null) ? savedText : s.note;
+
   noteEl.classList.add('open');
 
   document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
@@ -265,13 +274,20 @@ function openNote(s, i) {
   noteEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+// ذخیره خودکار هنگام تایپ
+noteText.addEventListener('input', () => {
+  if (activeIdx === -1) return;
+  const dayName = schedule[activeIdx].day;
+  localStorage.setItem('note_' + dayName, noteText.value);
+});
+
 closeBtn.addEventListener('click', () => {
   noteEl.classList.remove('open');
   document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
   activeIdx = -1;
 });
 
-/* ---------- تغییر حالت شب/روز + تعویض تصویر ---------- */
+/* ---------- تغییر حالت شب/روز ---------- */
 const themeBtn = document.getElementById('themeBtn');
 const themeIco = document.getElementById('themeIco');
 const themeTxt = document.getElementById('themeTxt');
