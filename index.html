@@ -73,6 +73,7 @@
     display:block;margin:0 auto 28px;
     box-shadow:var(--shadow);
     border:1px solid var(--glass-border);
+    transition:opacity .3s;
   }
   h1{
     font-size:clamp(1.5rem,4vw,2.1rem);
@@ -186,7 +187,7 @@
 <div class="container">
 
   <header>
-    <img class="hero-img" src="https://cdn.imgurl.ir/uploads/h52665_.png" alt="مدرسه شهید علی لندی">
+    <img class="hero-img" id="heroImg" src="https://cdn.imgurl.ir/uploads/h52665_.png" alt="مدرسه شهید علی لندی">
     <div class="status"><span class="dot"></span> برنامه به‌روز است</div>
     <h1>برنامه درسی کلاس ۱۱ پایگاه</h1>
     <p class="sub">
@@ -215,6 +216,12 @@
 </div>
 
 <script>
+/* ============================================================
+   تصاویر شب و روز
+   ============================================================ */
+const IMG_DARK  = "https://cdn.imgurl.ir/uploads/h52665_.png";   // حالت شب
+const IMG_LIGHT = "https://cdn.imgurl.ir/uploads/l317039_.png";  // حالت روز
+
 /* ============================================================
    ویرایش اینجا:
    برای هر روز، فیلد note را با متن تکالیف همان روز پر کن.
@@ -264,20 +271,23 @@ closeBtn.addEventListener('click', () => {
   activeIdx = -1;
 });
 
-/* ---------- تغییر حالت شب/روز ---------- */
+/* ---------- تغییر حالت شب/روز + تعویض تصویر ---------- */
 const themeBtn = document.getElementById('themeBtn');
 const themeIco = document.getElementById('themeIco');
 const themeTxt = document.getElementById('themeTxt');
+const heroImg  = document.getElementById('heroImg');
 
 function applyTheme(mode){
   if(mode === 'light'){
     document.body.classList.add('light');
     themeIco.textContent = '☀️';
     themeTxt.textContent = 'حالت روز';
+    heroImg.src = IMG_LIGHT;
   } else {
     document.body.classList.remove('light');
     themeIco.textContent = '🌙';
     themeTxt.textContent = 'حالت شب';
+    heroImg.src = IMG_DARK;
   }
 }
 
