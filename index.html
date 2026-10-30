@@ -4,70 +4,190 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>برنامه درسی کلاس ۱۱ پایگاه</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  :root{
+    --bg:#0b1220;
+    --bg-gradient:radial-gradient(circle at 15% 10%,#1a2a4a 0%,#0b1220 55%);
+    --glass:rgba(255,255,255,.06);
+    --glass-hover:rgba(255,255,255,.12);
+    --glass-border:rgba(255,255,255,.14);
+    --glass-border-hover:rgba(255,255,255,.28);
+    --text:#eef2fa;
+    --muted:#9aa8c0;
+    --accent:#4f8cff;
+    --accent-soft:rgba(79,140,255,.18);
+    --green:#22c55e;
+    --shadow:0 12px 40px rgba(0,0,0,.35);
+    --radius:20px;
+  }
+  body.light{
+    --bg:#eef2f8;
+    --bg-gradient:radial-gradient(circle at 15% 10%,#dfe9fb 0%,#eef2f8 55%);
+    --glass:rgba(255,255,255,.55);
+    --glass-hover:rgba(255,255,255,.8);
+    --glass-border:rgba(255,255,255,.9);
+    --glass-border-hover:rgba(79,140,255,.5);
+    --text:#0f1a2e;
+    --muted:#5b6b86;
+    --accent:#2563eb;
+    --accent-soft:rgba(37,99,235,.12);
+    --shadow:0 12px 40px rgba(30,60,120,.15);
+  }
   *{margin:0;padding:0;box-sizing:border-box}
   body{
-    font-family:Vazirmatn,Tahoma,sans-serif;
-    background:#0f1420;
-    color:#e8ecf5;
+    font-family:'Vazirmatn',Tahoma,sans-serif;
+    background:var(--bg);
+    background-image:var(--bg-gradient);
+    background-attachment:fixed;
+    color:var(--text);
     min-height:100vh;
-    padding:40px 16px;
-    line-height:1.8;
+    padding:32px 16px 60px;
+    line-height:1.9;
+    transition:background .4s,color .4s;
   }
-  .container{max-width:900px;margin:0 auto}
-  header{text-align:center;margin-bottom:40px}
-  h1{font-size:1.8rem;margin-bottom:10px;color:#fff}
-  .sub{color:#9aa7bd;font-size:.9rem;max-width:640px;margin:0 auto}
-  .sub strong{color:#e8ecf5}
+  .container{max-width:880px;margin:0 auto}
 
+  /* دکمه تغییر تم */
+  .theme-btn{
+    position:fixed;top:18px;left:18px;z-index:50;
+    display:flex;align-items:center;gap:8px;
+    padding:10px 16px;border-radius:100px;
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    color:var(--text);font-family:inherit;font-size:.82rem;font-weight:600;
+    cursor:pointer;transition:.3s;
+    box-shadow:var(--shadow);
+  }
+  .theme-btn:hover{background:var(--glass-hover);border-color:var(--glass-border-hover);transform:translateY(-2px)}
+  .theme-btn .ico{font-size:1rem}
+
+  /* هدر با تصویر */
+  header{text-align:center;margin-bottom:36px}
+  .hero-img{
+    width:100%;max-width:560px;
+    border-radius:var(--radius);
+    display:block;margin:0 auto 28px;
+    box-shadow:var(--shadow);
+    border:1px solid var(--glass-border);
+  }
+  h1{
+    font-size:clamp(1.5rem,4vw,2.1rem);
+    font-weight:800;
+    color:var(--text);
+    margin-bottom:12px;
+  }
+  .status{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 14px;border-radius:100px;
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);
+    font-size:.78rem;font-weight:600;color:var(--muted);
+    margin-bottom:18px;
+  }
+  .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 0 0 rgba(34,197,94,.6);
+    animation:pulse 1.6s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}
+    70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}
+    100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
+  }
+  .sub{
+    color:var(--muted);
+    font-size:.9rem;
+    max-width:640px;margin:0 auto;
+  }
+
+  /* کارت‌های روز */
   .days{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
     gap:14px;
-    margin-bottom:40px;
+    margin:36px 0;
   }
   .day{
-    background:#1a2233;
-    border:1px solid #263049;
-    border-radius:14px;
-    padding:20px 14px;
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    border-radius:var(--radius);
+    padding:22px 14px;
     text-align:center;
     cursor:pointer;
-    transition:.2s;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:var(--shadow);
+    transition:transform .25s,background .25s,border-color .25s;
   }
-  .day:hover{background:#222c42;border-color:#3a4a6b;transform:translateY(-3px)}
+  .day:hover{
+    background:var(--glass-hover);
+    border-color:var(--glass-border-hover);
+    transform:translateY(-4px);
+  }
+  .day.active{
+    border-color:var(--accent);
+    background:var(--accent-soft);
+  }
   .day .name{font-size:1.05rem;font-weight:700;margin-bottom:6px}
-  .day .date{font-size:.8rem;color:#8b98b0}
+  .day .date{font-size:.78rem;color:var(--muted)}
 
+  /* پنل یادداشت */
   .note{
-    background:#1a2233;
-    border:1px solid #263049;
-    border-radius:14px;
-    padding:24px;
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    border-radius:var(--radius);
+    padding:26px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    box-shadow:var(--shadow);
     display:none;
   }
-  .note.open{display:block;animation:fade .25s ease}
-  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .note-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #263049}
-  .note-head h2{font-size:1.15rem;color:#fff}
-  .note-head .date{font-size:.85rem;color:#8b98b0}
-  .close{
-    background:#263049;border:none;color:#e8ecf5;
-    width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;
+  .note.open{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .note-head{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:16px;padding-bottom:16px;
+    border-bottom:1px solid var(--glass-border);
   }
-  .close:hover{background:#33405e}
-  .note-body{white-space:pre-wrap;color:#c8d2e3;font-size:.95rem}
+  .note-head h2{font-size:1.15rem;font-weight:800}
+  .note-head .date{font-size:.82rem;color:var(--muted);margin-top:2px}
+  .close{
+    background:var(--glass);border:1px solid var(--glass-border);
+    color:var(--text);width:36px;height:36px;border-radius:12px;
+    cursor:pointer;font-size:1rem;transition:.25s;
+  }
+  .close:hover{background:var(--glass-hover);border-color:var(--glass-border-hover)}
+  .note-body{white-space:pre-wrap;color:var(--text);font-size:.95rem}
 
   footer{
-    text-align:center;color:#8b98b0;font-size:.85rem;
-    margin-top:50px;padding-top:24px;border-top:1px solid #1f2739;
+    text-align:center;color:var(--muted);font-size:.82rem;
+    margin-top:50px;padding-top:24px;
+    border-top:1px solid var(--glass-border);
+  }
+
+  @media(max-width:500px){
+    body{padding:24px 12px 48px}
+    .theme-btn{top:12px;left:12px;padding:8px 12px;font-size:.75rem}
+    .note{padding:20px}
   }
 </style>
 </head>
 <body>
+
+<button class="theme-btn" id="themeBtn">
+  <span class="ico" id="themeIco">🌙</span>
+  <span id="themeTxt">حالت شب</span>
+</button>
+
 <div class="container">
 
   <header>
+    <img class="hero-img" src="https://cdn.imgurl.ir/uploads/h52665_.png" alt="مدرسه شهید علی لندی">
+    <div class="status"><span class="dot"></span> برنامه به‌روز است</div>
     <h1>برنامه درسی کلاس ۱۱ پایگاه</h1>
     <p class="sub">
       برنامه‌ها به صورت هفتگی هستند. هر برنامه‌ای که اکنون مشاهده می‌کنید مربوط به هفته فعلی یا آینده است.
@@ -98,13 +218,14 @@
 /* ============================================================
    ویرایش اینجا:
    برای هر روز، فیلد note را با متن تکالیف همان روز پر کن.
+   برای خط جدید از \n استفاده کن.
    ============================================================ */
 const schedule = [
-  { day: "شنبه",    date: "۱۴۰۵/۰۸/۱۰", note: "تکالیف اینجا..." },
-  { day: "یکشنبه",  date: "۱۴۰۵/۰۸/۱۱", note: "تکالیف اینجا..." },
-  { day: "دوشنبه",  date: "۱۴۰۵/۰۸/۱۲", note: "تکالیف اینجا..." },
-  { day: "سه‌شنبه", date: "۱۴۰۵/۰۸/۱۳", note: "تکالیف اینجا..." },
-  { day: "چهارشنبه",date: "۱۴۰۵/۰۸/۱۴", note: "تکالیف اینجا..." }
+  { day: "شنبه",    date: "۱۴۰۵/۰۸/۱۰", note: "تکالیف شنبه\n\n- \n- \n- " },
+  { day: "یکشنبه",  date: "۱۴۰۵/۰۸/۱۱", note: "تکالیف یکشنبه\n\n- \n- \n- " },
+  { day: "دوشنبه",  date: "۱۴۰۵/۰۸/۱۲", note: "تکالیف دوشنبه\n\n- \n- \n- " },
+  { day: "سه‌شنبه", date: "۱۴۰۵/۰۸/۱۳", note: "تکالیف سه‌شنبه\n\n- \n- \n- " },
+  { day: "چهارشنبه",date: "۱۴۰۵/۰۸/۱۴", note: "تکالیف چهارشنبه\n\n- \n- \n- " }
 ];
 
 const daysEl = document.getElementById('days');
@@ -114,24 +235,60 @@ const noteDate = document.getElementById('noteDate');
 const noteBody = document.getElementById('noteBody');
 const closeBtn = document.getElementById('closeBtn');
 
+let activeIdx = -1;
+
 schedule.forEach((s, i) => {
   const el = document.createElement('div');
   el.className = 'day';
   el.innerHTML = `<div class="name">${s.day}</div><div class="date">${s.date}</div>`;
-  el.addEventListener('click', () => openNote(s));
+  el.addEventListener('click', () => openNote(s, i));
   daysEl.appendChild(el);
 });
 
-function openNote(s) {
+function openNote(s, i) {
   noteTitle.textContent = s.day;
   noteDate.textContent = s.date;
   noteBody.textContent = s.note;
   noteEl.classList.add('open');
+
+  document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
+  daysEl.children[i].classList.add('active');
+  activeIdx = i;
+
   noteEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 closeBtn.addEventListener('click', () => {
   noteEl.classList.remove('open');
+  document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
+  activeIdx = -1;
+});
+
+/* ---------- تغییر حالت شب/روز ---------- */
+const themeBtn = document.getElementById('themeBtn');
+const themeIco = document.getElementById('themeIco');
+const themeTxt = document.getElementById('themeTxt');
+
+function applyTheme(mode){
+  if(mode === 'light'){
+    document.body.classList.add('light');
+    themeIco.textContent = '☀️';
+    themeTxt.textContent = 'حالت روز';
+  } else {
+    document.body.classList.remove('light');
+    themeIco.textContent = '🌙';
+    themeTxt.textContent = 'حالت شب';
+  }
+}
+
+const saved = localStorage.getItem('theme') || 'dark';
+applyTheme(saved);
+
+themeBtn.addEventListener('click', () => {
+  const isLight = document.body.classList.contains('light');
+  const next = isLight ? 'dark' : 'light';
+  applyTheme(next);
+  localStorage.setItem('theme', next);
 });
 </script>
 </body>
