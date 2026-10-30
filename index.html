@@ -3,426 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>برنامه درسی کلاس ۱۱ پایگاه | مدرسه شهید علی لندی</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>برنامه درسی کلاس ۱۱ پایگاه</title>
 <style>
-  :root{
-    --bg:#0a0e1a;
-    --bg-soft:#111729;
-    --card:rgba(255,255,255,.04);
-    --card-hover:rgba(255,255,255,.08);
-    --border:rgba(255,255,255,.09);
-    --text:#eef2ff;
-    --muted:#94a3b8;
-    --accent:#7c3aed;
-    --accent-2:#06b6d4;
-    --accent-3:#f59e0b;
-    --glow:0 0 60px rgba(124,58,237,.35);
-  }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
   body{
-    font-family:'Vazirmatn',system-ui,sans-serif;
-    background:var(--bg);
-    color:var(--text);
+    font-family:Vazirmatn,Tahoma,sans-serif;
+    background:#0f1420;
+    color:#e8ecf5;
     min-height:100vh;
-    overflow-x:hidden;
-    line-height:1.7;
+    padding:40px 16px;
+    line-height:1.8;
   }
-  /* پس‌زمینه متحرک */
-  .bg-orbs{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-  .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;animation:float 18s ease-in-out infinite}
-  .orb-1{width:520px;height:520px;background:radial-gradient(circle,#7c3aed,transparent 70%);top:-150px;right:-120px}
-  .orb-2{width:480px;height:480px;background:radial-gradient(circle,#06b6d4,transparent 70%);bottom:-180px;left:-140px;animation-delay:-6s}
-  .orb-3{width:380px;height:380px;background:radial-gradient(circle,#f59e0b,transparent 70%);top:40%;left:45%;opacity:.25;animation-delay:-11s}
-  @keyframes float{
-    0%,100%{transform:translate(0,0) scale(1)}
-    33%{transform:translate(40px,-50px) scale(1.1)}
-    66%{transform:translate(-30px,30px) scale(.95)}
-  }
-  .grid-overlay{
-    position:fixed;inset:0;z-index:-1;pointer-events:none;
-    background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-                     linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-    background-size:56px 56px;
-    mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);
-  }
+  .container{max-width:900px;margin:0 auto}
+  header{text-align:center;margin-bottom:40px}
+  h1{font-size:1.8rem;margin-bottom:10px;color:#fff}
+  .sub{color:#9aa7bd;font-size:.9rem;max-width:640px;margin:0 auto}
+  .sub strong{color:#e8ecf5}
 
-  /* هدر */
-  header{
-    position:relative;
-    padding:64px 24px 40px;
-    text-align:center;
-    max-width:1100px;
-    margin:0 auto;
-  }
-  .badge{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:8px 18px;border-radius:100px;
-    background:rgba(124,58,237,.12);
-    border:1px solid rgba(124,58,237,.35);
-    font-size:.85rem;font-weight:500;color:#c4b5fd;
-    margin-bottom:24px;
-    animation:fadeUp .7s ease both;
-  }
-  .badge .dot{width:8px;height:8px;border-radius:50%;background:#a78bfa;box-shadow:0 0 12px #a78bfa;animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  h1{
-    font-size:clamp(1.9rem,5vw,3.4rem);
-    font-weight:900;
-    line-height:1.25;
-    letter-spacing:-.02em;
-    background:linear-gradient(135deg,#fff 0%,#c4b5fd 45%,#67e8f9 100%);
-    -webkit-background-clip:text;background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:fadeUp .7s .1s ease both;
-  }
-  .subtitle{
-    margin-top:16px;
-    font-size:clamp(.95rem,2vw,1.15rem);
-    color:var(--muted);
-    font-weight:400;
-    animation:fadeUp .7s .2s ease both;
-  }
-  .subtitle strong{color:#e2e8f0;font-weight:600}
-  .divider{
-    width:120px;height:3px;margin:32px auto 0;border-radius:99px;
-    background:linear-gradient(90deg,transparent,#7c3aed,#06b6d4,transparent);
-    animation:fadeUp .7s .3s ease both;
-  }
-  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-
-  /* بخش عنوان‌ها */
-  main{max-width:1100px;margin:0 auto;padding:0 24px 100px}
-  .section-head{display:flex;align-items:center;gap:14px;margin:56px 0 28px}
-  .section-head .icon{
-    width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
-    background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(6,182,212,.15));
-    border:1px solid var(--border);font-size:1.3rem;
-    flex-shrink:0;
-  }
-  .section-head h2{font-size:clamp(1.25rem,3vw,1.6rem);font-weight:800}
-  .section-head p{font-size:.85rem;color:var(--muted);margin-top:2px}
-
-  /* کارت‌های برنامه */
-  .cards{
+  .days{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
-    gap:18px;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:14px;
+    margin-bottom:40px;
   }
-  .card{
-    position:relative;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:22px;
-    padding:24px;
+  .day{
+    background:#1a2233;
+    border:1px solid #263049;
+    border-radius:14px;
+    padding:20px 14px;
+    text-align:center;
     cursor:pointer;
-    overflow:hidden;
-    transition:transform .35s cubic-bezier(.2,.8,.2,1),background .35s,border-color .35s,box-shadow .35s;
-    backdrop-filter:blur(12px);
+    transition:.2s;
   }
-  .card::before{
-    content:'';position:absolute;inset:0;border-radius:22px;padding:1px;
-    background:linear-gradient(135deg,rgba(124,58,237,.6),transparent 40%,transparent 60%,rgba(6,182,212,.6));
-    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor;mask-composite:exclude;
-    opacity:0;transition:opacity .35s;pointer-events:none;
-  }
-  .card:hover{transform:translateY(-6px);background:var(--card-hover);box-shadow:0 20px 50px -20px rgba(124,58,237,.5)}
-  .card:hover::before{opacity:1}
-  .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
-  .day-chip{
-    display:inline-flex;align-items:center;gap:7px;
-    font-size:.72rem;font-weight:700;padding:6px 12px;border-radius:100px;
-    background:rgba(124,58,237,.16);color:#c4b5fd;border:1px solid rgba(124,58,237,.3);
-  }
-  .day-chip .d{width:6px;height:6px;border-radius:50%;background:#a78bfa}
-  .arrow{
-    width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
-    background:rgba(255,255,255,.06);border:1px solid var(--border);
-    color:var(--muted);font-size:.9rem;transition:.3s;
-  }
-  .card:hover .arrow{background:var(--accent);color:#fff;transform:rotate(-45deg);border-color:var(--accent)}
-  .card h3{font-size:1.15rem;font-weight:800;margin-bottom:6px;color:#fff}
-  .card .date{
-    font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:6px;margin-bottom:16px;
-  }
-  .card .date svg{width:14px;height:14px;opacity:.7}
-  .lessons-preview{
-    display:flex;flex-wrap:wrap;gap:6px;
-  }
-  .tag{
-    font-size:.68rem;padding:4px 9px;border-radius:8px;
-    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
-    color:#cbd5e1;font-weight:500;
-  }
-  .tag.more{background:rgba(6,182,212,.15);color:#67e8f9;border-color:rgba(6,182,212,.3)}
+  .day:hover{background:#222c42;border-color:#3a4a6b;transform:translateY(-3px)}
+  .day .name{font-size:1.05rem;font-weight:700;margin-bottom:6px}
+  .day .date{font-size:.8rem;color:#8b98b0}
 
-  /* مودال */
-  .modal-overlay{
-    position:fixed;inset:0;z-index:100;
-    background:rgba(5,8,16,.75);
-    backdrop-filter:blur(8px);
-    display:flex;align-items:center;justify-content:center;
-    padding:20px;
-    opacity:0;visibility:hidden;transition:.3s;
+  .note{
+    background:#1a2233;
+    border:1px solid #263049;
+    border-radius:14px;
+    padding:24px;
+    display:none;
   }
-  .modal-overlay.open{opacity:1;visibility:visible}
-  .modal{
-    background:linear-gradient(160deg,#141b2e,#0d1220);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:26px;
-    width:100%;max-width:680px;max-height:86vh;
-    overflow-y:auto;
-    padding:32px;
-    box-shadow:0 40px 100px -20px rgba(0,0,0,.8),var(--glow);
-    transform:scale(.92) translateY(20px);
-    transition:transform .35s cubic-bezier(.2,.8,.2,1);
-    position:relative;
+  .note.open{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .note-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #263049}
+  .note-head h2{font-size:1.15rem;color:#fff}
+  .note-head .date{font-size:.85rem;color:#8b98b0}
+  .close{
+    background:#263049;border:none;color:#e8ecf5;
+    width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;
   }
-  .modal-overlay.open .modal{transform:none}
-  .modal::-webkit-scrollbar{width:8px}
-  .modal::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:99px}
-  .modal-close{
-    position:absolute;top:18px;left:18px;
-    width:38px;height:38px;border-radius:50%;
-    background:rgba(255,255,255,.06);border:1px solid var(--border);
-    color:var(--text);font-size:1.2rem;cursor:pointer;
-    display:grid;place-items:center;transition:.25s;
-  }
-  .modal-close:hover{background:#ef4444;border-color:#ef4444;transform:rotate(90deg)}
-  .modal .day-chip{margin-bottom:16px}
-  .modal h2{font-size:1.6rem;font-weight:900;margin-bottom:8px;background:linear-gradient(135deg,#fff,#c4b5fd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .modal .modal-date{color:var(--muted);font-size:.9rem;margin-bottom:24px;display:flex;align-items:center;gap:8px}
-  .lessons-list{display:flex;flex-direction:column;gap:10px}
-  .lesson-row{
-    display:flex;align-items:center;gap:14px;
-    padding:14px 16px;border-radius:14px;
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.06);
-    transition:.25s;
-    animation:rowIn .4s ease both;
-  }
-  .lesson-row:hover{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.3);transform:translateX(-4px)}
-  @keyframes rowIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
-  .lesson-num{
-    width:34px;height:34px;border-radius:10px;flex-shrink:0;
-    display:grid;place-items:center;
-    font-size:.8rem;font-weight:800;
-    background:linear-gradient(135deg,#7c3aed,#06b6d4);
-    color:#fff;box-shadow:0 6px 18px -6px rgba(124,58,237,.7);
-  }
-  .lesson-name{font-weight:600;font-size:.95rem}
-  .lesson-row .hint{margin-right:auto;font-size:.72rem;color:var(--muted)}
+  .close:hover{background:#33405e}
+  .note-body{white-space:pre-wrap;color:#c8d2e3;font-size:.95rem}
 
-  /* فوتر */
   footer{
-    text-align:center;padding:40px 24px 60px;color:var(--muted);
-    font-size:.82rem;border-top:1px solid rgba(255,255,255,.05);
-    max-width:1100px;margin:0 auto;
-  }
-  footer strong{color:#e2e8f0}
-
-  @media(max-width:600px){
-    header{padding:48px 18px 28px}
-    main{padding:0 18px 80px}
-    .modal{padding:24px 20px;border-radius:20px}
-    .modal h2{font-size:1.3rem}
+    text-align:center;color:#8b98b0;font-size:.85rem;
+    margin-top:50px;padding-top:24px;border-top:1px solid #1f2739;
   }
 </style>
 </head>
 <body>
+<div class="container">
 
-<div class="bg-orbs">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
-<div class="grid-overlay"></div>
+  <header>
+    <h1>برنامه درسی کلاس ۱۱ پایگاه</h1>
+    <p class="sub">
+      برنامه‌ها به صورت هفتگی هستند. هر برنامه‌ای که اکنون مشاهده می‌کنید مربوط به هفته فعلی یا آینده است.
+      در صورت اینکه هر درسی در برنامه‌ها تکمیل شود، آن درس حذف خواهد شد.
+    </p>
+  </header>
 
-<header>
-  <div class="badge"><span class="dot"></span> اطلاع‌رسانی برنامه‌های درسی</div>
-  <h1>برنامه‌های درسی کلاس ۱۱ پایگاه</h1>
-  <p class="subtitle">مدرسه <strong>شهید علی لندی</strong> — برای مشاهده شرح کامل هر برنامه روی آن کلیک کنید</p>
-  <div class="divider"></div>
-</header>
+  <div class="days" id="days"></div>
 
-<main>
-  <div class="section-head">
-    <div class="icon">📅</div>
-    <div>
-      <h2>برنامه‌های روزهای خاص</h2>
-      <p>لیست برنامه‌های ویژه‌ای که برای روزهای مشخص تنظیم شده‌اند</p>
+  <div class="note" id="note">
+    <div class="note-head">
+      <div>
+        <h2 id="noteTitle"></h2>
+        <div class="date" id="noteDate"></div>
+      </div>
+      <button class="close" id="closeBtn">✕</button>
     </div>
+    <div class="note-body" id="noteBody"></div>
   </div>
 
-  <div class="cards" id="cards"></div>
-</main>
+  <footer>
+    ساخته شده به درخواست محمد جواد رحیمی — ۱۴۰۵
+  </footer>
 
-<footer>
-  ساخته شده با ❤️ برای دانش‌آموزان <strong>کلاس ۱۱ پایگاه</strong> — مدرسه شهید علی لندی
-</footer>
-
-<!-- مودال -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modal">
-    <button class="modal-close" id="modalClose" aria-label="بستن">✕</button>
-    <div id="modalBody"></div>
-  </div>
 </div>
 
 <script>
 /* ============================================================
-   داده‌ها: روزهای هفته + ۱۲ درس
-   برای تغییر نام درس‌ها فقط آرایه LESSONS را ویرایش کنید.
-   برای افزودن/ویرایش برنامه‌ها آرایه SCHEDULES را ویرایش کنید.
+   ویرایش اینجا:
+   برای هر روز، فیلد note را با متن تکالیف همان روز پر کن.
    ============================================================ */
-
-// نام ۱۲ درس — فعلاً «درس ۱» تا «درس ۱۲»
-const LESSONS = [
-  "درس ۱", "درس ۲", "درس ۳", "درس ۴",
-  "درس ۵", "درس ۶", "درس ۷", "درس ۸",
-  "درس ۹", "درس ۱۰", "درس ۱۱", "درس ۱۲"
+const schedule = [
+  { day: "شنبه",    date: "۱۴۰۵/۰۸/۱۰", note: "تکالیف اینجا..." },
+  { day: "یکشنبه",  date: "۱۴۰۵/۰۸/۱۱", note: "تکالیف اینجا..." },
+  { day: "دوشنبه",  date: "۱۴۰۵/۰۸/۱۲", note: "تکالیف اینجا..." },
+  { day: "سه‌شنبه", date: "۱۴۰۵/۰۸/۱۳", note: "تکالیف اینجا..." },
+  { day: "چهارشنبه",date: "۱۴۰۵/۰۸/۱۴", note: "تکالیف اینجا..." }
 ];
 
-// روزهای هفته (برای نمایش در چیپ)
-const WEEKDAYS = {
-  "شنبه": { emoji: "🟣" },
-  "یکشنبه": { emoji: "🔵" },
-  "دوشنبه": { emoji: "🟢" },
-  "سه‌شنبه": { emoji: "🟡" },
-  "چهارشنبه": { emoji: "🟠" },
-  "پنجشنبه": { emoji: "🔴" },
-  "جمعه": { emoji: "⚪" }
-};
+const daysEl = document.getElementById('days');
+const noteEl = document.getElementById('note');
+const noteTitle = document.getElementById('noteTitle');
+const noteDate = document.getElementById('noteDate');
+const noteBody = document.getElementById('noteBody');
+const closeBtn = document.getElementById('closeBtn');
 
-/* برنامه‌های روزهای خاص
-   هر آیتم: { day: "شنبه", date: "1405/08/10", note: "توضیح کوتاه" }
-   درس‌ها به‌صورت پیش‌فرض همان ۱۲ درس هستند، اما می‌توانید
-   با فیلد lessons لیست سفارشی بدهید (مثلاً بعضی روزها ۸ درس).
-*/
-const SCHEDULES = [
-  {
-    day: "شنبه",
-    date: "۱۴۰۵/۰۸/۱۰",
-    note: "برنامه روز شنبه",
-    lessons: LESSONS
-  },
-  {
-    day: "یکشنبه",
-    date: "۱۴۰۵/۰۸/۱۱",
-    note: "برنامه روز یکشنبه",
-    lessons: LESSONS
-  },
-  {
-    day: "دوشنبه",
-    date: "۱۴۰۵/۰۸/۱۲",
-    note: "برنامه روز دوشنبه",
-    lessons: LESSONS
-  },
-  {
-    day: "سه‌شنبه",
-    date: "۱۴۰۵/۰۸/۱۳",
-    note: "برنامه روز سه‌شنبه",
-    lessons: LESSONS
-  },
-  {
-    day: "چهارشنبه",
-    date: "۱۴۰۵/۰۸/۱۴",
-    note: "برنامه روز چهارشنبه",
-    lessons: LESSONS
-  },
-  {
-    day: "پنجشنبه",
-    date: "۱۴۰۵/۰۸/۱۵",
-    note: "برنامه روز پنجشنبه",
-    lessons: LESSONS
-  }
-];
-
-/* ============================================================
-   رندر کارت‌ها
-   ============================================================ */
-const cardsEl = document.getElementById('cards');
-
-SCHEDULES.forEach((s, idx) => {
-  const card = document.createElement('article');
-  card.className = 'card';
-  card.style.animation = `fadeUp .6s ${idx * 0.08}s ease both`;
-
-  const previewCount = 3;
-  const previewTags = s.lessons.slice(0, previewCount)
-    .map(l => `<span class="tag">${l}</span>`).join('');
-  const moreCount = s.lessons.length - previewCount;
-  const moreTag = moreCount > 0
-    ? `<span class="tag more">+${moreCount} درس دیگر</span>`
-    : '';
-
-  const emoji = (WEEKDAYS[s.day] && WEEKDAYS[s.day].emoji) || "📘";
-
-  card.innerHTML = `
-    <div class="card-top">
-      <span class="day-chip"><span class="d"></span>${s.day}</span>
-      <span class="arrow">↗</span>
-    </div>
-    <h3>${s.note}</h3>
-    <div class="date">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
-        <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-      </svg>
-      ${s.date}
-    </div>
-    <div class="lessons-preview">${previewTags}${moreTag}</div>
-  `;
-
-  card.addEventListener('click', () => openModal(s));
-  cardsEl.appendChild(card);
+schedule.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'day';
+  el.innerHTML = `<div class="name">${s.day}</div><div class="date">${s.date}</div>`;
+  el.addEventListener('click', () => openNote(s));
+  daysEl.appendChild(el);
 });
 
-/* ============================================================
-   مودال
-   ============================================================ */
-const overlay = document.getElementById('modalOverlay');
-const modalBody = document.getElementById('modalBody');
-const modalClose = document.getElementById('modalClose');
-
-function openModal(s) {
-  const emoji = (WEEKDAYS[s.day] && WEEKDAYS[s.day].emoji) || "📘";
-  const rows = s.lessons.map((name, i) => `
-    <div class="lesson-row" style="animation-delay:${i * 0.05}s">
-      <div class="lesson-num">${toFa(i + 1)}</div>
-      <div class="lesson-name">${name}</div>
-      <div class="hint">زنگ ${toFa(i + 1)}</div>
-    </div>
-  `).join('');
-
-  modalBody.innerHTML = `
-    <span class="day-chip"><span class="d"></span>${s.day}</span>
-    <h2>${s.note}</h2>
-    <div class="modal-date">📆 تاریخ: ${s.date} — تعداد دروس: ${toFa(s.lessons.length)}</div>
-    <div class="lessons-list">${rows}</div>
-  `;
-
-  overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
+function openNote(s) {
+  noteTitle.textContent = s.day;
+  noteDate.textContent = s.date;
+  noteBody.textContent = s.note;
+  noteEl.classList.add('open');
+  noteEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function closeModal() {
-  overlay.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-modalClose.addEventListener('click', closeModal);
-overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-/* تبدیل عدد به فارسی */
-function toFa(n) {
-  return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-}
+closeBtn.addEventListener('click', () => {
+  noteEl.classList.remove('open');
+});
 </script>
 </body>
 </html>
