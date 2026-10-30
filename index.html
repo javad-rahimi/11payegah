@@ -149,31 +149,45 @@
     display:flex;justify-content:space-between;align-items:center;
     margin-bottom:16px;padding-bottom:16px;
     border-bottom:1px solid var(--glass-border);
+    gap:12px;
   }
+  .note-head-left{display:flex;flex-direction:column}
   .note-head h2{font-size:1.15rem;font-weight:800}
   .note-head .date{font-size:.82rem;color:var(--muted);margin-top:2px}
+  .note-head-right{display:flex;align-items:center;gap:8px}
+
+  /* دکمه کپی */
+  .copy-btn{
+    display:flex;align-items:center;gap:6px;
+    padding:8px 14px;border-radius:12px;
+    background:var(--accent-soft);
+    border:1px solid var(--accent);
+    color:var(--accent);
+    font-family:inherit;font-size:.8rem;font-weight:700;
+    cursor:pointer;transition:.25s;
+    white-space:nowrap;
+  }
+  .copy-btn:hover{background:var(--accent);color:#fff}
+  .copy-btn.copied{background:var(--green);border-color:var(--green);color:#fff}
+
   .close{
     background:var(--glass);border:1px solid var(--glass-border);
     color:var(--text);width:36px;height:36px;border-radius:12px;
-    cursor:pointer;font-size:1rem;transition:.25s;
+    cursor:pointer;font-size:1rem;transition:.25s;flex-shrink:0;
   }
   .close:hover{background:var(--glass-hover);border-color:var(--glass-border-hover)}
 
-  /* جعبه متن قابل ویرایش */
-  .note-text{
-    width:100%;
-    min-height:180px;
-    resize:vertical;
-    background:transparent;
-    border:none;
-    outline:none;
-    color:var(--text);
-    font-family:inherit;
-    font-size:.95rem;
-    line-height:1.9;
+  /* متن غیرقابل انتخاب */
+  .note-body{
     white-space:pre-wrap;
+    color:var(--text);
+    font-size:.95rem;
+    user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    -moz-user-select:none;
+    cursor:default;
   }
-  .note-text::placeholder{color:var(--muted);opacity:.7}
 
   footer{
     text-align:center;color:var(--muted);font-size:.82rem;
@@ -185,6 +199,7 @@
     body{padding:24px 12px 48px}
     .theme-btn{top:12px;left:12px;padding:8px 12px;font-size:.75rem}
     .note{padding:20px}
+    .copy-btn{font-size:.72rem;padding:7px 10px}
   }
 </style>
 </head>
@@ -202,7 +217,8 @@
     <div class="status"><span class="dot"></span> برنامه به‌روز است</div>
     <h1>برنامه درسی کلاس ۱۱ پایگاه</h1>
     <p class="sub">
-      برنامه‌ها به صورت هفتگی هستند. هر برنامه‌ای که اکنون مشاهده می‌کنید مربوط به روز های پیش رو است‌. در صورتی که یک روز گذارنده شود، آن روز به حالت «این روز گذشته است» تغییر پیدا میکند و در روز جمعه برنامه جدید جایگذین آن خواهد شد.
+      برنامه‌ها به صورت هفتگی هستند. هر برنامه‌ای که اکنون مشاهده می‌کنید مربوط به هفته فعلی یا آینده است.
+      در صورت اینکه هر درسی در برنامه‌ها تکمیل شود، آن درس حذف خواهد شد.
     </p>
   </header>
 
@@ -210,13 +226,16 @@
 
   <div class="note" id="note">
     <div class="note-head">
-      <div>
+      <div class="note-head-left">
         <h2 id="noteTitle"></h2>
         <div class="date" id="noteDate"></div>
       </div>
-      <button class="close" id="closeBtn">✕</button>
+      <div class="note-head-right">
+        <button class="copy-btn" id="copyBtn">📋 کپی</button>
+        <button class="close" id="closeBtn">✕</button>
+      </div>
     </div>
-    <textarea class="note-text" id="noteText" placeholder="تکالیف این روز را اینجا بنویسید..."></textarea>
+    <div class="note-body" id="noteBody"></div>
   </div>
 
   <footer>
@@ -229,8 +248,9 @@
 const IMG_DARK  = "https://cdn.imgurl.ir/uploads/h52665_.png";
 const IMG_LIGHT = "https://cdn.imgurl.ir/uploads/l317039_.png";
 
-/* روزها — متن اولیه هر روز در فیلد note هست.
-   اگر می‌خواهی از اول خالی باشه، note را خالی بگذار: "" */
+/* ============================================================
+   ویرایش اینجا: متن هر روز را با \n برای خط جدید بنویس.
+   ============================================================ */
 const schedule = [
   { day: "شنبه",    date: "۹ آبان",  note: "- این روز گذشته است" },
   { day: "یکشنبه",  date: "۱۰ آبان", note: "- امتحان نوآوری از پودمان ۱ گرفته می‌شود" },
@@ -243,8 +263,9 @@ const daysEl = document.getElementById('days');
 const noteEl = document.getElementById('note');
 const noteTitle = document.getElementById('noteTitle');
 const noteDate = document.getElementById('noteDate');
-const noteText = document.getElementById('noteText');
+const noteBody = document.getElementById('noteBody');
 const closeBtn = document.getElementById('closeBtn');
+const copyBtn = document.getElementById('copyBtn');
 
 let activeIdx = -1;
 
@@ -259,12 +280,12 @@ schedule.forEach((s, i) => {
 function openNote(s, i) {
   noteTitle.textContent = s.day;
   noteDate.textContent = s.date;
-
-  // اگر کاربر قبلاً چیزی نوشته بود، همون رو نشون بده؛ وگرنه متن پیش‌فرض
-  const savedText = localStorage.getItem('note_' + s.day);
-  noteText.value = (savedText !== null) ? savedText : s.note;
-
+  noteBody.textContent = s.note;
   noteEl.classList.add('open');
+
+  // ریست دکمه کپی
+  copyBtn.classList.remove('copied');
+  copyBtn.textContent = '📋 کپی';
 
   document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
   daysEl.children[i].classList.add('active');
@@ -273,17 +294,37 @@ function openNote(s, i) {
   noteEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ذخیره خودکار هنگام تایپ
-noteText.addEventListener('input', () => {
-  if (activeIdx === -1) return;
-  const dayName = schedule[activeIdx].day;
-  localStorage.setItem('note_' + dayName, noteText.value);
-});
-
 closeBtn.addEventListener('click', () => {
   noteEl.classList.remove('open');
   document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
   activeIdx = -1;
+});
+
+/* ---------- کپی متن ---------- */
+copyBtn.addEventListener('click', async () => {
+  if (activeIdx === -1) return;
+  const text = schedule[activeIdx].note;
+
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch(e) {
+    // فالبک برای مرورگرهای قدیمی
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+
+  copyBtn.classList.add('copied');
+  copyBtn.textContent = '✓ کپی شد';
+  setTimeout(() => {
+    copyBtn.classList.remove('copied');
+    copyBtn.textContent = '📋 کپی';
+  }, 1800);
 });
 
 /* ---------- تغییر حالت شب/روز ---------- */
