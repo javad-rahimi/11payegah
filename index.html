@@ -1,362 +1,862 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>برنامه درسی کلاس ۱۱ پایگاه</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101b18">
+<title>برنامه کلاسی ۱۱ پایگاه</title>
+
 <style>
-  :root{
-    --bg:#0b1220;
-    --bg-gradient:radial-gradient(circle at 15% 10%,#1a2a4a 0%,#0b1220 55%);
-    --glass:rgba(255,255,255,.06);
-    --glass-hover:rgba(255,255,255,.12);
-    --glass-border:rgba(255,255,255,.14);
-    --glass-border-hover:rgba(255,255,255,.28);
-    --text:#eef2fa;
-    --muted:#9aa8c0;
-    --accent:#4f8cff;
-    --accent-soft:rgba(79,140,255,.18);
-    --green:#22c55e;
-    --shadow:0 12px 40px rgba(0,0,0,.35);
-    --radius:20px;
-  }
-  body.light{
-    --bg:#eef2f8;
-    --bg-gradient:radial-gradient(circle at 15% 10%,#dfe9fb 0%,#eef2f8 55%);
-    --glass:rgba(255,255,255,.55);
-    --glass-hover:rgba(255,255,255,.8);
-    --glass-border:rgba(255,255,255,.9);
-    --glass-border-hover:rgba(79,140,255,.5);
-    --text:#0f1a2e;
-    --muted:#5b6b86;
-    --accent:#2563eb;
-    --accent-soft:rgba(37,99,235,.12);
-    --shadow:0 12px 40px rgba(30,60,120,.15);
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{
-    font-family:'Vazirmatn',Tahoma,sans-serif;
-    background:var(--bg);
-    background-image:var(--bg-gradient);
-    background-attachment:fixed;
-    color:var(--text);
-    min-height:100vh;
-    padding:32px 16px 60px;
-    line-height:1.9;
-    transition:background .4s,color .4s;
-  }
-  .container{max-width:880px;margin:0 auto}
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap');
 
-  .theme-btn{
-    position:fixed;top:18px;left:18px;z-index:50;
-    display:flex;align-items:center;gap:8px;
-    padding:10px 16px;border-radius:100px;
-    background:var(--glass);
-    border:1px solid var(--glass-border);
-    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-    color:var(--text);font-family:inherit;font-size:.82rem;font-weight:600;
-    cursor:pointer;transition:.3s;
-    box-shadow:var(--shadow);
-  }
-  .theme-btn:hover{background:var(--glass-hover);border-color:var(--glass-border-hover);transform:translateY(-2px)}
-  .theme-btn .ico{font-size:1rem}
+:root{
+--bg:#101916;
+--panel:#18231f;
+--panel2:#202d27;
+--line:#405249;
+--green:#8cff75;
+--white:#edf4ef;
+--muted:#9aaba0;
+--mono:'Share Tech Mono',monospace;
+--fa:'Vazirmatn',Tahoma,sans-serif
+}
 
-  header{text-align:center;margin-bottom:36px}
-  .hero-img{
-    width:100%;max-width:560px;
-    border-radius:var(--radius);
-    display:block;margin:0 auto 28px;
-    box-shadow:var(--shadow);
-    border:1px solid var(--glass-border);
-    transition:opacity .3s;
-  }
-  h1{
-    font-size:clamp(1.5rem,4vw,2.1rem);
-    font-weight:800;
-    color:var(--text);
-    margin-bottom:12px;
-  }
-  .status{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:6px 14px;border-radius:100px;
-    background:var(--glass);
-    border:1px solid var(--glass-border);
-    backdrop-filter:blur(10px);
-    font-size:.78rem;font-weight:600;color:var(--muted);
-    margin-bottom:18px;
-  }
-  .dot{
-    width:9px;height:9px;border-radius:50%;
-    background:var(--green);
-    box-shadow:0 0 0 0 rgba(34,197,94,.6);
-    animation:pulse 1.6s infinite;
-  }
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}
-    70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}
-    100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
-  }
-  .sub{
-    color:var(--muted);
-    font-size:.9rem;
-    max-width:640px;margin:0 auto;
-  }
+*{box-sizing:border-box}
 
-  .days{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-    gap:14px;
-    margin:36px 0;
-  }
-  .day{
-    background:var(--glass);
-    border:1px solid var(--glass-border);
-    border-radius:var(--radius);
-    padding:22px 14px;
-    text-align:center;
-    cursor:pointer;
-    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-    box-shadow:var(--shadow);
-    transition:transform .25s,background .25s,border-color .25s;
-  }
-  .day:hover{
-    background:var(--glass-hover);
-    border-color:var(--glass-border-hover);
-    transform:translateY(-4px);
-  }
-  .day.active{
-    border-color:var(--accent);
-    background:var(--accent-soft);
-  }
-  .day .name{font-size:1.05rem;font-weight:700;margin-bottom:6px}
-  .day .date{font-size:.78rem;color:var(--muted)}
+body{
+margin:0;
+background-color:var(--bg);
+background-image:
+linear-gradient(rgba(140,255,117,.035) 1px,transparent 1px),
+linear-gradient(90deg,rgba(140,255,117,.035) 1px,transparent 1px);
+background-size:24px 24px;
+color:var(--white);
+font-family:var(--fa);
+min-height:100vh;
+padding:28px 16px 0
+}
 
-  .note{
-    background:var(--glass);
-    border:1px solid var(--glass-border);
-    border-radius:var(--radius);
-    padding:26px;
-    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-    box-shadow:var(--shadow);
-    display:none;
-  }
-  .note.open{display:block;animation:fade .3s ease}
-  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  .note-head{
-    display:flex;justify-content:space-between;align-items:center;
-    margin-bottom:16px;padding-bottom:16px;
-    border-bottom:1px solid var(--glass-border);
-    gap:12px;
-  }
-  .note-head-left{display:flex;flex-direction:column}
-  .note-head h2{font-size:1.15rem;font-weight:800}
-  .note-head .date{font-size:.82rem;color:var(--muted);margin-top:2px}
-  .note-head-right{display:flex;align-items:center;gap:8px}
+.wrap{max-width:850px;margin:auto}
 
-  /* دکمه کپی */
-  .copy-btn{
-    display:flex;align-items:center;gap:6px;
-    padding:8px 14px;border-radius:12px;
-    background:var(--accent-soft);
-    border:1px solid var(--accent);
-    color:var(--accent);
-    font-family:inherit;font-size:.8rem;font-weight:700;
-    cursor:pointer;transition:.25s;
-    white-space:nowrap;
-  }
-  .copy-btn:hover{background:var(--accent);color:#fff}
-  .copy-btn.copied{background:var(--green);border-color:var(--green);color:#fff}
+.topline{
+height:3px;
+background:var(--green);
+width:52px;
+margin:0 auto 22px;
+box-shadow:0 0 14px #8cff7580
+}
 
-  .close{
-    background:var(--glass);border:1px solid var(--glass-border);
-    color:var(--text);width:36px;height:36px;border-radius:12px;
-    cursor:pointer;font-size:1rem;transition:.25s;flex-shrink:0;
-  }
-  .close:hover{background:var(--glass-hover);border-color:var(--glass-border-hover)}
+h1{
+text-align:center;
+font-size:clamp(27px,5vw,42px);
+font-weight:800;
+margin:0 0 8px;
+letter-spacing:-1px
+}
 
-  /* متن غیرقابل انتخاب */
-  .note-body{
-    white-space:pre-wrap;
-    color:var(--text);
-    font-size:.95rem;
-    user-select:none;
-    -webkit-user-select:none;
-    -ms-user-select:none;
-    -moz-user-select:none;
-    cursor:default;
-  }
+h1 span{color:var(--green)}
 
-  footer{
-    text-align:center;color:var(--muted);font-size:.82rem;
-    margin-top:50px;padding-top:24px;
-    border-top:1px solid var(--glass-border);
-  }
+.subtitle{
+text-align:center;
+color:var(--muted);
+font:13px var(--mono);
+direction:ltr;
+margin-bottom:30px
+}
 
-  @media(max-width:500px){
-    body{padding:24px 12px 48px}
-    .theme-btn{top:12px;left:12px;padding:8px 12px;font-size:.75rem}
-    .note{padding:20px}
-    .copy-btn{font-size:.72rem;padding:7px 10px}
-  }
+.panel{
+background:rgba(24,35,31,.96);
+border:1px solid var(--line);
+margin:18px 0;
+box-shadow:5px 5px 0 #080e0c;
+overflow:hidden
+}
+
+.panel-head{
+background:var(--panel2);
+border-bottom:1px solid var(--line);
+padding:11px 15px;
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:700
+}
+
+.panel-head:before{
+content:'■';
+color:var(--green);
+font-size:11px
+}
+
+.panel-body{padding:16px}
+
+.notice{
+border:1px solid var(--green);
+background:#17291e;
+padding:14px 16px;
+display:flex;
+gap:12px;
+align-items:flex-start;
+margin:0 0 20px;
+box-shadow:4px 4px 0 #080e0c
+}
+
+.notice-mark{
+font:20px var(--mono);
+color:var(--green)
+}
+
+.notice-title{
+color:var(--green);
+font-weight:700;
+margin-bottom:3px
+}
+
+.notice-text{
+font-size:14px;
+color:#dce9df;
+outline:none;
+min-height:22px
+}
+
+/* تاریخ */
+
+.date-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
+}
+
+.date-cell{
+background:#151f1b;
+border:1px solid #39483f;
+padding:13px 10px;
+text-align:center
+}
+
+.date-label{
+font-size:12px;
+color:var(--muted);
+margin-bottom:6px
+}
+
+/* فونت فارسی و ضخیم اعداد تاریخ */
+
+.date-number{
+font-family:var(--fa);
+font-size:25px;
+font-weight:800;
+color:var(--green);
+direction:rtl
+}
+
+.date-month{
+font-size:18px;
+font-weight:700;
+color:var(--white)
+}
+
+/* پیشرفت سال تحصیلی */
+
+.school-progress{margin-top:16px}
+
+.school-progress-head{
+display:flex;
+justify-content:space-between;
+gap:10px;
+color:var(--muted);
+font-size:12px;
+margin-bottom:8px
+}
+
+.progress{
+height:9px;
+background:#34423a;
+border:1px solid #526258;
+overflow:hidden
+}
+
+.progress>i{
+display:block;
+height:100%;
+width:0;
+background:var(--green);
+box-shadow:0 0 10px #8cff7580;
+transition:width .5s
+}
+
+.school-percent{
+font:12px var(--mono);
+color:var(--green);
+direction:ltr;
+white-space:nowrap
+}
+
+/* برنامه هفتگی */
+
+.days{display:grid;gap:8px}
+
+.day{
+display:grid;
+grid-template-columns:105px 1fr;
+align-items:center;
+min-height:58px;
+border:1px solid #39483f;
+background:#151f1b;
+cursor:pointer;
+transition:border-color .15s,background .15s
+}
+
+.day:hover{border-color:#78917e}
+
+.day.selected{
+border-color:var(--green);
+background:#1a2b20;
+box-shadow:inset 0 0 12px #8cff7510
+}
+
+.day-name{
+padding:12px 14px;
+border-left:1px solid #39483f;
+font-weight:700;
+color:#fff;
+transition:color .15s
+}
+
+.day.selected .day-name{color:var(--green)}
+
+.day-entry{
+padding:10px 14px;
+color:#fff;
+min-height:42px;
+display:flex;
+align-items:center;
+font-size:14px
+}
+
+.day.selected .day-entry{color:var(--green)}
+
+/* درس جاری */
+
+.current{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px
+}
+
+.current-label{
+color:var(--muted);
+font-size:13px
+}
+
+.current-value{
+font-size:19px;
+font-weight:700;
+margin-top:4px
+}
+
+.current-value span{color:var(--green)}
+
+.date{
+font-family:var(--fa);
+font-size:24px;
+font-weight:800;
+color:var(--green);
+direction:rtl;
+white-space:nowrap
+}
+
+/* دریافت فایل ها */
+
+.downloads{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+gap:10px
+}
+
+.download{
+display:flex;
+align-items:center;
+gap:12px;
+padding:13px;
+border:1px solid var(--line);
+background:#151f1b;
+color:var(--white);
+text-decoration:none;
+transition:.15s
+}
+
+.download:hover{
+border-color:var(--green);
+transform:translateY(-2px)
+}
+
+.fileicon{
+font:22px var(--mono);
+color:var(--green)
+}
+
+.download small{
+display:block;
+color:var(--muted);
+font-size:11px;
+margin-top:3px
+}
+
+/* شرایط بروزرسانی */
+
+.update-box{
+margin:22px 0;
+padding:16px;
+background:#241b0d;
+border:1px solid #ffad42;
+border-right:4px solid #ffad42;
+box-shadow:4px 4px 0 #080e0c
+}
+
+.update-title{
+color:#ffbd62;
+font-size:15px;
+font-weight:800;
+margin-bottom:9px
+}
+
+.update-text{
+color:#f5e4ca;
+font-size:13px;
+line-height:2
+}
+
+/* فوتر گلکسی */
+
+.site-footer{
+position:relative;
+margin-top:30px;
+padding:25px 18px;
+text-align:center;
+direction:rtl;
+background:
+radial-gradient(ellipse at 20% 10%,#355b3b88,transparent 45%),
+radial-gradient(ellipse at 85% 90%,#193e2988,transparent 50%),
+#080e0b;
+border:1px solid #e5f5e7;
+border-radius:8px;
+box-shadow:
+0 0 15px #8cff7520,
+inset 0 0 25px #8cff7510;
+color:#e7f5e9;
+overflow:hidden
+}
+
+.site-footer:before{
+content:'';
+position:absolute;
+inset:0;
+pointer-events:none;
+background-image:
+radial-gradient(1px 1px at 10% 20%,#ffffffaa 50%,transparent),
+radial-gradient(2px 2px at 75% 25%,#8cff75aa 50%,transparent),
+radial-gradient(1px 1px at 45% 75%,#ffffff88 50%,transparent),
+radial-gradient(1px 1px at 90% 80%,#8cff7588 50%,transparent);
+background-size:150px 130px;
+opacity:.7
+}
+
+.site-footer>*{
+position:relative;
+z-index:1
+}
+
+.footer-title{
+font-size:17px;
+font-weight:800;
+color:#a8ff9b;
+margin-bottom:20px;
+text-shadow:0 0 12px #8cff7555
+}
+
+.contact-list{
+display:flex;
+flex-direction:column;
+gap:13px;
+max-width:400px;
+margin:auto
+}
+
+.contact-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:8px;
+padding:11px 13px;
+background:#ffffff08;
+border:1px solid #8cff7533;
+border-radius:5px;
+font-size:12px
+}
+
+/* دکمه کپی شماره */
+
+.phone-copy{
+border:0;
+padding:4px 7px;
+background:transparent;
+color:#a8ff9b;
+font-family:var(--mono);
+font-size:13px;
+cursor:pointer;
+direction:ltr;
+transition:.15s
+}
+
+.phone-copy:hover{
+color:#fff;
+text-shadow:0 0 10px #8cff75
+}
+
+.footer-note{
+margin-top:20px;
+padding-top:15px;
+border-top:1px solid #ffffff30;
+color:#b8cbb9;
+font-size:12px;
+line-height:2
+}
+
+/* نوار انتهایی سایت */
+
+.bottom-bar{
+margin-top:25px;
+margin-left:-16px;
+margin-right:-16px;
+padding:13px 12px;
+background:var(--green);
+color:#102016;
+text-align:center;
+font-family:var(--mono);
+font-size:12px;
+font-weight:700;
+letter-spacing:.3px;
+direction:ltr;
+box-shadow:0 -3px 15px #8cff7520
+}
+
+@media(max-width:520px){
+
+body{padding:23px 12px 0}
+
+.day{grid-template-columns:82px 1fr}
+
+.day-name{
+padding:10px 9px;
+font-size:13px
+}
+
+.day-entry{
+padding:9px;
+font-size:13px
+}
+
+.panel-body{padding:12px}
+
+.monthname{font-size:17px}
+
+.contact-item{font-size:11px}
+
+.phone-copy{font-size:12px}
+
+.bottom-bar{
+margin-left:-12px;
+margin-right:-12px;
+font-size:10px
+}
+
+}
 </style>
 </head>
+
 <body>
 
-<button class="theme-btn" id="themeBtn">
-  <span class="ico" id="themeIco">🌙</span>
-  <span id="themeTxt">حالت شب</span>
-</button>
+<main class="wrap">
+    <center>
+<img src="https://www.amootsms.com/wp-content/uploads/2025/11/YaZd-Payamak.png" alt="yazd city" style="height: 200px;">
+</center>
+<div class="topline"></div>
+<h1>برنامه کلاسی <span>۱۱ پایگاه</span></h1>
+<div class="subtitle">CLASS SCHEDULE / COMPUTER CLASS</div>
 
-<div class="container">
+<section class="notice">
+<div class="notice-mark">!</div>
+<div style="flex:1">
+<div class="notice-title">یادآوری کلاس</div>
+<div class="notice-text">
+برای فناوری نوین آمادگی داشته باش!
+</div>
+</div>
+</section>
 
-  <header>
-    <img class="hero-img" id="heroImg" src="https://cdn.imgurl.ir/uploads/h52665_.png" alt="مدرسه شهید علی لندی">
-    <div class="status"><span class="dot"></span> برنامه به‌روز است</div>
-    <h1>برنامه درسی کلاس ۱۱ پایگاه</h1>
-    <p class="sub">
-      برنامه‌ها به صورت هفتگی هستند. هر برنامه‌ای که اکنون مشاهده می‌کنید مربوط به هفته فعلی یا آینده است.
-      در صورت اینکه هر درسی در برنامه‌ها تکمیل شود، آن درس حذف خواهد شد.
-      برنامه ها در روز های چهارشنبه بروز میشوند!
-    </p>
-  </header>
+<section class="panel">
 
-  <div class="days" id="days"></div>
+<div class="panel-head">تاریخ امروز</div>
 
-  <div class="note" id="note">
-    <div class="note-head">
-      <div class="note-head-left">
-        <h2 id="noteTitle"></h2>
-        <div class="date" id="noteDate"></div>
-      </div>
-      <div class="note-head-right">
-        <button class="copy-btn" id="copyBtn">📋 کپی</button>
-        <button class="close" id="closeBtn">✕</button>
-      </div>
-    </div>
-    <div class="note-body" id="noteBody"></div>
-  </div>
+<div class="panel-body">
 
-  <footer>
-    ساخته شده به درخواست محمد جواد رحیمی — ۱۴۰۵
-  </footer>
+<div class="date-grid">
+
+<div class="date-cell">
+<div class="date-label">روز جاری</div>
+<div class="date-number" id="todayDay">--</div>
+</div>
+
+<div class="date-cell">
+<div class="date-label">ماه جاری (عدد)</div>
+<div class="date-number" id="todayMonthNumber">--</div>
+</div>
+
+<div class="date-cell">
+<div class="date-label">ماه جاری (نام)</div>
+<div class="date-month" id="todayMonthName">—</div>
+</div>
 
 </div>
 
-<script>
-const IMG_DARK  = "https://cdn.imgurl.ir/uploads/h52665_.png";
-const IMG_LIGHT = "https://cdn.imgurl.ir/uploads/l317039_.png";
+<div class="school-progress">
 
-/* ============================================================
-   ویرایش اینجا: متن هر روز را با \n برای خط جدید بنویس.
-   ============================================================ */
-const schedule = [
-  { day: "شنبه",    date: "۱۶ آبان",  note: "این روز گذشته است" },
-  { day: "یکشنبه",  date: "۱۷ آبان", note: "این روز گذشته است" },
-  { day: "دوشنبه",  date: "۱۸ آبان", note: "- فناوری نوین، پودمان ۲ تا صفحه ۳۵ پرسش است" },
-  { day: "سه‌شنبه", date: "۱۹ آبان", note: "- زبان درس ۱ امتحان گرفته می‌شود" },
-  { day: "چهارشنبه",date: "۲۰ آبان", note: "- سوالات درس ۲ و ۳ دینی در کتاب علامت زده شود. همچنین آمادگی برای پرسش داشته باشید." }
+<div class="school-progress-head">
+<span>میزان سپری‌شدن سال تحصیلی</span>
+<span class="school-percent" id="schoolPercent">۰٪</span>
+</div>
+
+<div class="progress">
+<i id="schoolProgress"></i>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section class="panel">
+
+<div class="panel-head">برنامه هفتگی</div>
+
+<div class="panel-body">
+
+<div class="days" id="days">
+
+<div class="day" data-day="شنبه">
+<div class="day-name">شنبه</div>
+<div class="day-entry">این روز گذشته است.</div>
+</div>
+
+<div class="day" data-day="یکشنبه">
+<div class="day-name">یکشنبه</div>
+<div class="day-entry">این روز گذشته است.</div>
+</div>
+
+<div class="day" data-day="دوشنبه">
+<div class="day-name">دوشنبه</div>
+<div class="day-entry">فناوری نوین، پودمان 2. تا صفحه 35 پرسش صورت میگیرد.</div>
+</div>
+
+<div class="day" data-day="سه‌شنبه">
+<div class="day-name">سه‌شنبه</div>
+<div class="day-entry">زبان، درس 1 امتحان گرفته میشود.</div>
+</div>
+
+<div class="day" data-day="چهارشنبه">
+<div class="day-name">چهارشنبه</div>
+<div class="day-entry">دینی، با توجه به کانال ایتا، سوالات درس 2 و 3 علامت زده شود. احتمال پرسش نیز وجود دارد.</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="panel">
+
+<div class="panel-head">درس جاری زنگ اول یکشنبه</div>
+
+<div class="panel-body current">
+
+<div>
+<div class="current-label">درس این هفته</div>
+<div class="current-value"><span>منقضی شده</span></div>
+</div>
+
+<div class="date" id="todayDate">--</div>
+
+</div>
+</section>
+
+<section class="panel">
+
+<div class="panel-head">دریافت فایل‌ها</div>
+
+<div class="panel-body">
+
+<div class="downloads">
+<a class="download" href="https://cdn.imgurl.ir/uploads/p41231_.pdf" target="_blank" rel="noopener">
+<span class="fileicon">PDF</span>
+<span>پایگاه اینترنتی
+<small>دانلود جزوه / فایل PDF</small>
+</span>
+</a>
+
+<a class="download" href="https://cdn.imgurl.ir/uploads/m181383_.jpg" target="_blank" rel="noopener">
+<span class="fileicon">JPG</span>
+<span>برنامه هفتگی دروس
+<small>مشاهده تصویر برنامه</small>
+</span>
+</a>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="update-box">
+<div class="update-title">⚠ شرایط بروزرسانی</div>
+<div class="update-text">
+برنامه های جدید در چهارشنبه های هر هفته اعمال می‌شوند!
+</div>
+</section>
+
+<footer class="site-footer">
+
+<div class="footer-title">راه های ارتباطی</div>
+
+<div class="contact-list">
+
+<div class="contact-item">
+<span>ابوالفضل احمدی:</span>
+<button class="phone-copy" type="button"
+data-phone="+989222438084">
++989222438084
+</button>
+</div>
+
+<div class="contact-item">
+<span>محمد جواد رحیمی:</span>
+<button class="phone-copy" type="button"
+data-phone="+989926186347">
++989926186347
+</button>
+</div>
+
+</div>
+
+<div class="footer-note">
+همچنین قابل ارتباط در پیامرسان های ایتا و تلگرام.
+</div>
+
+</footer>
+
+</main>
+
+<div class="bottom-bar">
+CREATED AT THE REQUEST OF MOHAMMAD JAVAD RAHIMI · 1405
+</div>
+
+<script>
+
+// دریافت تاریخ شمسی دستگاه
+
+const now = new Date();
+
+const dateFormatter = new Intl.DateTimeFormat(
+'en-US-u-ca-persian',
+{
+day:'numeric',
+month:'numeric',
+year:'numeric'
+}
+);
+
+const dateParts = dateFormatter.formatToParts(now);
+
+function getPart(type){
+const item = dateParts.find(p => p.type === type);
+return item ? Number(item.value) : 0;
+}
+
+const currentDay = getPart('day');
+const monthNumber = getPart('month');
+const currentYear = getPart('year');
+
+const monthNames = [
+'فروردین','اردیبهشت','خرداد',
+'تیر','مرداد','شهریور',
+'مهر','آبان','آذر',
+'دی','بهمن','اسفند'
 ];
 
-const daysEl = document.getElementById('days');
-const noteEl = document.getElementById('note');
-const noteTitle = document.getElementById('noteTitle');
-const noteDate = document.getElementById('noteDate');
-const noteBody = document.getElementById('noteBody');
-const closeBtn = document.getElementById('closeBtn');
-const copyBtn = document.getElementById('copyBtn');
+const dayText = new Intl.NumberFormat('fa-IR').format(currentDay);
+const monthText = monthNames[monthNumber - 1] || '';
 
-let activeIdx = -1;
+document.getElementById('todayDay').textContent = dayText;
 
-schedule.forEach((s, i) => {
-  const el = document.createElement('div');
-  el.className = 'day';
-  el.innerHTML = `<div class="name">${s.day}</div><div class="date">${s.date}</div>`;
-  el.addEventListener('click', () => openNote(s, i));
-  daysEl.appendChild(el);
-});
+document.getElementById('todayMonthNumber').textContent =
+new Intl.NumberFormat('fa-IR').format(monthNumber);
 
-function openNote(s, i) {
-  noteTitle.textContent = s.day;
-  noteDate.textContent = s.date;
-  noteBody.textContent = s.note;
-  noteEl.classList.add('open');
+document.getElementById('todayMonthName').textContent = monthText;
 
-  // ریست دکمه کپی
-  copyBtn.classList.remove('copied');
-  copyBtn.textContent = '📋 کپی';
+document.getElementById('todayDate').textContent =
+dayText + ' ' + monthText;
 
-  document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
-  daysEl.children[i].classList.add('active');
-  activeIdx = i;
 
-  noteEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+// محاسبه پیشرفت سال تحصیلی
+// از اول مهر ۱۴۰۵ تا پایان خرداد ۱۴۰۶
+
+const schoolMonths = [
+30, 30, 30, 30, 30, 29, 31, 31, 31
+];
+
+const total = schoolMonths.reduce(
+(sum, days) => sum + days, 0
+);
+
+let elapsed = 0;
+
+if(currentYear === 1405 && monthNumber >= 7 && monthNumber <= 12){
+
+for(let m = 7; m < monthNumber; m++){
+elapsed += schoolMonths[m - 7];
 }
 
-closeBtn.addEventListener('click', () => {
-  noteEl.classList.remove('open');
-  document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
-  activeIdx = -1;
-});
+elapsed += currentDay;
 
-/* ---------- کپی متن ---------- */
-copyBtn.addEventListener('click', async () => {
-  if (activeIdx === -1) return;
-  const text = schedule[activeIdx].note;
+}else if(currentYear === 1406 && monthNumber >= 1 && monthNumber <= 3){
 
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch(e) {
-    // فالبک برای مرورگرهای قدیمی
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-  }
+elapsed = schoolMonths.slice(0,6).reduce(
+(sum, days) => sum + days, 0
+);
 
-  copyBtn.classList.add('copied');
-  copyBtn.textContent = '✓ کپی شد';
-  setTimeout(() => {
-    copyBtn.classList.remove('copied');
-    copyBtn.textContent = '📋 کپی';
-  }, 1800);
-});
-
-/* ---------- تغییر حالت شب/روز ---------- */
-const themeBtn = document.getElementById('themeBtn');
-const themeIco = document.getElementById('themeIco');
-const themeTxt = document.getElementById('themeTxt');
-const heroImg  = document.getElementById('heroImg');
-
-function applyTheme(mode){
-  if(mode === 'light'){
-    document.body.classList.add('light');
-    themeIco.textContent = '☀️';
-    themeTxt.textContent = 'حالت روز';
-    heroImg.src = IMG_LIGHT;
-  } else {
-    document.body.classList.remove('light');
-    themeIco.textContent = '🌙';
-    themeTxt.textContent = 'حالت شب';
-    heroImg.src = IMG_DARK;
-  }
+for(let m = 1; m < monthNumber; m++){
+elapsed += schoolMonths[5 + m];
 }
 
-const saved = localStorage.getItem('theme') || 'dark';
-applyTheme(saved);
+elapsed += currentDay;
 
-themeBtn.addEventListener('click', () => {
-  const isLight = document.body.classList.contains('light');
-  const next = isLight ? 'dark' : 'light';
-  applyTheme(next);
-  localStorage.setItem('theme', next);
+}else if(
+currentYear > 1406 ||
+(currentYear === 1406 && monthNumber > 3)
+){
+
+elapsed = total;
+
+}
+
+const schoolPct = Math.max(
+0,
+Math.min(100, Math.round(elapsed / total * 100))
+);
+
+document.getElementById('schoolProgress').style.width =
+schoolPct + '%';
+
+document.getElementById('schoolPercent').textContent =
+new Intl.NumberFormat('fa-IR').format(schoolPct) + '٪';
+
+
+// انتخاب خودکار روز جاری هفته
+
+const weekdayMap = {
+6:'شنبه',
+0:'یکشنبه',
+1:'دوشنبه',
+2:'سه‌شنبه',
+3:'چهارشنبه'
+};
+
+const todayName = weekdayMap[now.getDay()];
+
+if(todayName){
+
+document.querySelectorAll('.day').forEach(day => {
+
+day.classList.toggle(
+'selected',
+day.dataset.day === todayName
+);
+
 });
+
+}
+
+
+// انتخاب دستی روزها
+
+document.querySelectorAll('.day').forEach(el => {
+
+el.addEventListener('click', () => {
+
+document.querySelectorAll('.day').forEach(day => {
+day.classList.remove('selected');
+});
+
+el.classList.add('selected');
+
+});
+
+});
+
+
+// کپی شماره تلفن با کلیک
+
+function copyPhoneNumber(number){
+
+if(navigator.clipboard && window.isSecureContext){
+
+navigator.clipboard.writeText(number).catch(() => {
+fallbackCopy(number);
+});
+
+}else{
+
+fallbackCopy(number);
+
+}
+
+}
+
+function fallbackCopy(number){
+
+const input = document.createElement('textarea');
+
+input.value = number;
+input.style.position = 'fixed';
+input.style.opacity = '0';
+
+document.body.appendChild(input);
+
+input.select();
+
+try{
+document.execCommand('copy');
+}catch(error){
+console.log('Copy failed');
+}
+
+document.body.removeChild(input);
+
+}
+
+document.querySelectorAll('.phone-copy').forEach(button => {
+
+button.addEventListener('click', () => {
+
+copyPhoneNumber(button.dataset.phone);
+
+});
+
+});
+
 </script>
+
 </body>
 </html>
