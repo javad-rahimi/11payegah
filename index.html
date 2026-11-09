@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -585,7 +584,6 @@ font-size:10px
 <div>
 <div class="current-label">درس این هفته</div>
 <div class="current-value"><span>منقضی شده</span></div>
-<div class="date" id="todayDate">--</div>
 </div>
 </section>
 
@@ -648,7 +646,7 @@ data-phone="+989926186347">
 </div>
 
 <div class="footer-note">
-همچنین قابل ارتباط در پیامرسان های ایتا و تلگرام.
+همچنین قابل ارتباط در پیام‌رسان های ایتا و تلگرام.
 </div>
 
 </footer>
@@ -701,9 +699,6 @@ document.getElementById('todayMonthNumber').textContent =
 new Intl.NumberFormat('fa-IR').format(monthNumber);
 
 document.getElementById('todayMonthName').textContent = monthText;
-
-document.getElementById('todayDate').textContent =
-dayText + ' ' + monthText;
 
 
 // محاسبه پیشرفت سال تحصیلی
